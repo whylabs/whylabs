@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "dataflow-templates"
+version = "0.1.0"
+description = "Templates for use in GCP's Dataflow."
+authors = ["Anthony Naddeo <anthony.naddeo@gmail.com>"]
+license = "Apache-2.0 license"
+readme = "README.md"
+packages = [{include = "src/**/*.py"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^0.990"
+pytest = "^7.2.0"
+black = "^22.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[flake8]
+max-line-length = 140
