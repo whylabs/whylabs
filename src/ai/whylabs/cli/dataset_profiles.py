@@ -28,5 +28,3 @@ def delete_all_profiles_for_period(
     )
 
     print(result)
-
-    return None
