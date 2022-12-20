@@ -14,14 +14,14 @@ def delete_all_profiles_for_period(
     dataset_id: str,
     org_id: Optional[str],
 ) -> None:
-    id = org_id or Config().get_default_org_id()
+    org_id = org_id or Config().get_default_org_id()
     api = DatasetProfileApi(client)
 
     profile_start_timestamp = start if isinstance(start, int) else int(start.timestamp() * 1000.0)
     profile_end_timestamp = end if isinstance(end, int) else int(end.timestamp() * 1000.0)
 
     result: DeleteDatasetProfilesResponse = api.delete_dataset_profiles(
-        org_id=id,
+        org_id=org_id,
         dataset_id=dataset_id,
         profile_start_timestamp=profile_start_timestamp,
         profile_end_timestamp=profile_end_timestamp,

@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Optional
 import os
 
 
@@ -16,7 +15,7 @@ class Config:
     def get_whylabs_host(self) -> str:
         return Validations.get_or_default(ConfigVars.WHYLABS_HOST)
 
-    def get_default_org_id(self) -> Optional[str]:
+    def get_default_org_id(self) -> str:
         return Validations.require(ConfigVars.ORG_ID)
 
 
@@ -31,6 +30,6 @@ class Validations:
     @staticmethod
     def get_or_default(env: ConfigVars) -> str:
         val = os.getenv(env.name, env.value)
-        if val is None or val == "":
+        if not val:
             raise TypeError(f"No default value for {env.name}")
         return val

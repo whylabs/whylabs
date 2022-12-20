@@ -1,17 +1,17 @@
 [tool.poetry]
-name = "dataflow-templates"
-version = "0.1.0"
-description = "Templates for use in GCP's Dataflow."
-authors = ["Anthony Naddeo <anthony.naddeo@gmail.com>"]
+name = "whylabs"
+version = "0.0.1"
+description = "Whylabs CLI and Helpers package."
+authors = ["Anthony Naddeo <anthony.naddeo@gmail.com>", "Murilo Mendonca <murilommen@gmail.com>"]
 license = "Apache-2.0 license"
 readme = "README.md"
-packages = [{include = "src/**/*.py"}]
+packages = [{include = "whylabs/**/*.py"}]
 
 [tool.poetry.dependencies]
 python = ">=3.8"
 whylabs-client = "^0.4.2"
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.dev-dependencies]
 pytest = "^7.2.0"
 black = "^22.10.0"
 mypy = "^0.991"

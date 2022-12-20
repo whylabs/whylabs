@@ -5,7 +5,7 @@ VERSION=$(SHA)
 REQUIREMENTS=requirements.txt
 
 .PHONY: default 
-.PHONY: lint format format-fix test setup version_metadata help requirements
+.PHONY: lint format format-fix test setup help requirements
 
 default:help
 
