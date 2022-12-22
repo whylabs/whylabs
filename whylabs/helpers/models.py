@@ -29,17 +29,19 @@ def update_model_metadata(
     logger.debug(f"Updating dataset with current metadata: \n {model_metadata}")
     
     try:
-        api.update_model(
+        resp = api.update_model(
             org_id=org_id,
             model_id=dataset_id,
             model_name=model_metadata["name"],
             time_period=TimePeriod(time_period) if time_period else model_metadata["time_period"],
             model_type=ModelType(model_type) if model_type else model_metadata["model_type"]
         )
+        logger.debug(f"Updated sucessfully! Resp: {resp}")
     except ApiValueError as e:
         raise e
 
 if __name__ == "__main__":
+    # TODO add unit test
     logging.basicConfig()
     logger.setLevel(logging.DEBUG)
     
