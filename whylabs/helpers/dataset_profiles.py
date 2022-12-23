@@ -8,6 +8,9 @@ from whylabs_client.api.dataset_profile_api import DatasetProfileApi, DeleteData
 date_or_millis = Union[datetime, int]
 
 
+# TODO test and make sure it's working
+
+
 def delete_all_profiles_for_period(
     start: date_or_millis,
     end: date_or_millis,

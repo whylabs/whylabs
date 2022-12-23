@@ -41,7 +41,6 @@ def update_model_metadata(
         raise e
 
 if __name__ == "__main__":
-    # TODO add unit test
     logging.basicConfig()
     logger.setLevel(logging.DEBUG)
     
