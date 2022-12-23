@@ -3,6 +3,7 @@ PY_SOURCE=$(shell find src/ -type f -name "*.py")
 SHA=$(shell git rev-parse HEAD)
 VERSION=$(SHA)
 REQUIREMENTS=requirements.txt
+SRC_DIR=./whylabs/
 
 .PHONY: default 
 .PHONY: lint format format-fix test setup help requirements
@@ -15,13 +16,13 @@ requirements.txt: pyproject.toml
 	poetry export -f requirements.txt > requirements.txt
 
 lint:
-	poetry run mypy src/
+	poetry run mypy ${SRC_DIR}
 
 format:
-	poetry run black --check --line-length 120 src
+	poetry run black --check --line-length 120 ${SRC_DIR}
 
 format-fix:
-	poetry run black --line-length 120 src
+	poetry run black --line-length 120 ${SRC_DIR}
 
 setup:
 	poetry install

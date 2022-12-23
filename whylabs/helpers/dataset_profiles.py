@@ -3,7 +3,7 @@ from typing import Optional, Union
 from datetime import datetime
 from .client import client
 from .config import Config
-from whylabs_client.api.dataset_profile_api import DatasetProfileApi, DeleteDatasetProfilesResponse 
+from whylabs_client.api.dataset_profile_api import DatasetProfileApi, DeleteDatasetProfilesResponse
 
 date_or_millis = Union[datetime, int]
 

@@ -5,7 +5,7 @@ import logging
 from typing import List, Dict, Optional, Any
 from dataclasses import dataclass
 
-import requests # type: ignore
+import requests  # type: ignore
 
 from whylabs.helpers.client import client
 from whylabs.helpers.config import Config
@@ -17,33 +17,31 @@ logger = logging.getLogger(__name__)
 
 # TODO make arguments more generic and meaningful
 
+
 class UpdateEntity(ABC):
     def __init__(self, dataset_id: str, org_id: Optional[str] = None):
         self.dataset_id = dataset_id
         self.org_id = org_id or Config().get_default_org_id()
-        
+
         self.entity_schema_url = f"v0/organizations/{org_id}/models/{dataset_id}/schema"
         self.req_url = os.path.join(BASE_ENDPOINT, self.entity_schema_url)
-    
+
     def _get_entity_schema(self) -> Any:
         entity_schema = requests.get(
-            url = self.req_url,
-            headers={
-                "accept": "application/json",
-                "X-API-Key": client.configuration.api_key['ApiKeyAuth']
-            }
+            url=self.req_url,
+            headers={"accept": "application/json", "X-API-Key": client.configuration.api_key["ApiKeyAuth"]},
         )
         return entity_schema.json()
-        
+
     def _put_entity_schema(self, schema: Dict) -> None:
         resp = requests.put(
             url=self.req_url,
             headers={
                 "accept": "application/json",
-                "X-API-Key": client.configuration.api_key['ApiKeyAuth'],
-                "Content-Type": "application/json"
+                "X-API-Key": client.configuration.api_key["ApiKeyAuth"],
+                "Content-Type": "application/json",
             },
-            data=json.dumps(schema)
+            data=json.dumps(schema),
         )
         logger.debug(f"{resp.status_code}, {resp.content}")
 
@@ -54,7 +52,7 @@ class UpdateEntity(ABC):
     @abstractmethod
     def _validate_input(self) -> None:
         pass
-    
+
     @abstractmethod
     def _update_entity_schema(self) -> None:
         pass
@@ -70,16 +68,18 @@ class UpdateEntity(ABC):
         self._update_entity_schema()
         self._put_updated_entity_schema()
 
+
 @dataclass
 class ColumnsClasses:
     inputs: List[str]
     outputs: List[str]
-    
+
     def __post_init__(self) -> None:
         if self.inputs is None:
             self.inputs = []
         if self.outputs is None:
-            self.outputs = [] 
+            self.outputs = []
+
 
 class UpdateColumnClasses(UpdateEntity):
     def __init__(self, dataset_id: str, classes: ColumnsClasses, org_id: Optional[str] = None):
@@ -102,13 +102,13 @@ class UpdateColumnClasses(UpdateEntity):
 class UpdateEntityDataTypes(UpdateEntity):
     """
     Update data types on each column of the dataset
-    
+
     Arguments
     ----
-    columns_schema: Dict[str, str] 
+    columns_schema: Dict[str, str]
         The keys are column names and the values are the
         desired data_types, as the example below shows
-    
+
     ```python
     columns_schema = {
         "column_1": "fractional",
@@ -116,17 +116,18 @@ class UpdateEntityDataTypes(UpdateEntity):
         "column_3": "string"
     }
     ```
-    
+
     These are the currently supported data types:
     ---
-    - integral 
-    - fractional 
-    - bool 
-    - string 
-    - unknown 
+    - integral
+    - fractional
+    - bool
+    - string
+    - unknown
     - null
     ---
     """
+
     def __init__(self, dataset_id: str, columns_schema: Dict[str, str], org_id: Optional[str] = None):
         super().__init__(dataset_id, org_id)
         self.columns_schema = columns_schema
@@ -143,17 +144,19 @@ class UpdateEntityDataTypes(UpdateEntity):
             if key in self.columns_dict.keys() and self.columns_dict[key]["dataType"] != value:
                 self.columns_dict[key].update({"dataType": self.columns_schema[key]})
 
+
 @dataclass
 class ColumnsDiscreteness:
     discrete: List[str]
     continuous: List[str]
-    
+
     def __post_init__(self) -> None:
         if self.discrete is None:
             self.discrete = []
         if self.continuous is None:
-            self.continuous = [] 
-    
+            self.continuous = []
+
+
 class UpdateColumnsDiscreteness(UpdateEntity):
     def __init__(self, dataset_id: str, classes: ColumnsDiscreteness, org_id: Optional[str] = None):
         super().__init__(dataset_id, org_id)
