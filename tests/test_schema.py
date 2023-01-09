@@ -1,3 +1,7 @@
+def test_schema() -> None:
+    pass
+
+
 # import os
 
 # os.environ["WHYLABS_API_KEY"] = ""#
