@@ -53,19 +53,6 @@ def delete_monitor(org_id: str, dataset_id: str, monitor_id: str) -> None:
             logger.debug(f"Deleted analyzer with Resp:{resp_analyzer}")        
     except ApiValueError as e:
         raise e
-    
-
-def change_monitor_trailing_window(org_id: str, dataset_id: str, monitor_id: str, desired_window: int) -> None:
-    pass
-
-def change_hellinger_distance_threshold(org_id: str, dataset_id: str, monitor_id: str, desired_thresh_distance: float) -> None:
-    pass
-
-def change_percentage_drift_on_baseline(org_id: str, dataset_id: str, monitor_id: str, desired_percentage: float) -> None:
-    pass
-
-def change_fixed_window_monitor_range(org_id: str, dataset_id: str, monitor_id: str, start_date: datetime, end_date: datetime) -> None:
-    pass
 
 
 if __name__ == "__main__":
