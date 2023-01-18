@@ -21,7 +21,7 @@ update_entity = UpdateColumnClasses(
 
 update_entity.update()
 
-print(update_entity.current_entity_schema["columns"]["temperature"]["classifier"])
+print(update_entity.current_entity_schema["columns"]["temperature"]["classifier"] == "output") # Returns True
 
 # ----
 
@@ -36,7 +36,7 @@ update_data_types = UpdateEntityDataTypes(
 
 update_data_types.update()
 
-print(update_data_types.current_entity_schema["columns"]["temperature"]["dataType"])
+print(update_data_types.current_entity_schema["columns"]["temperature"]["dataType"] == "bool") # Returns True
 
 columns_schema = {"temperature": "fractional"}
 
@@ -48,7 +48,7 @@ update_data_types = UpdateEntityDataTypes(
 
 update_data_types.update()
 
-print(update_data_types.current_entity_schema["columns"]["temperature"]["dataType"])
+print(update_data_types.current_entity_schema["columns"]["temperature"]["dataType"] == "fractional") # Returns True
 
 # ---
 
@@ -65,4 +65,4 @@ update_discreteness = UpdateColumnsDiscreteness(
 
 update_discreteness.update()
 
-print(update_discreteness.current_entity_schema["columns"]["temperature"]["discreteness"])
+print(update_discreteness.current_entity_schema["columns"]["temperature"]["discreteness"] == "discrete") # Returns True
