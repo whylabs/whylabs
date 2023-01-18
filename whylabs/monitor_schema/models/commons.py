@@ -19,7 +19,7 @@ DATASET_ID_DEF = Field(
 )
 
 
-class NoExtrasBaseModel(BaseModel, extra=Extra.forbid):
+class NoExtrasBaseModel(BaseModel, extra=Extra.forbid):  # type: ignore
     """No extras base model.
 
     Inherit to prevent accidental extra fields.
