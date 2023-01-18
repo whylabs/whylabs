@@ -1,5 +1,5 @@
 """Common utilities."""
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from pydantic import Field, constr
 
@@ -15,7 +15,7 @@ def anyOf_to_oneOf(schema: Dict[str, Any], field_name: str) -> None:
     cfg = schema["properties"].get(field_name)
     if cfg is None:
         return
-    if cfg.get('anyOf') is None:
+    if cfg.get("anyOf") is None:
         return
     cfg["oneOf"] = cfg["anyOf"]
     del cfg["anyOf"]
@@ -25,7 +25,7 @@ COLUMN_NAME_TYPE = constr(max_length=1000)
 METRIC_NAME_STR = constr(max_length=50)
 
 
-def duration_field(description: str, title: Optional[str] = None) -> Field:  # type: ignore
+def duration_field(description: str, title: str) -> Any:
     """Duration of a field."""
     return Field(
         None,

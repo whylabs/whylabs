@@ -12,8 +12,8 @@ from whylabs.monitor_schema.models.utils import COLUMN_NAME_TYPE
 class TargetLevel(str, Enum):
     """Which nested level we are targeting."""
 
-    dataset = 'dataset'
-    column = 'column'
+    dataset = "dataset"
+    column = "column"
 
 
 class _BaseMatrix(NoExtrasBaseModel):
@@ -39,18 +39,18 @@ class DatasetMatrix(_BaseMatrix):
 class ColumnGroups(str, Enum):
     """Standard column groupings."""
 
-    group_continuous = 'group:continuous'
-    group_discrete = 'group:discrete'
+    group_continuous = "group:continuous"
+    group_discrete = "group:discrete"
 
     # based on classification
-    group_input = 'group:input'
-    group_output = 'group:output'
+    group_input = "group:input"
+    group_output = "group:output"
 
     # based on data types
-    group_bool = 'group:bool'
-    group_int = 'group:int'
-    group_frac = 'group:frac'
-    group_str = 'group:str'
+    group_bool = "group:bool"
+    group_int = "group:int"
+    group_frac = "group:frac"
+    group_str = "group:str"
 
 
 class ColumnMatrix(_BaseMatrix):

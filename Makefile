@@ -16,7 +16,7 @@ requirements.txt: pyproject.toml
 	poetry export -f requirements.txt > requirements.txt
 
 lint:
-	poetry run mypy ${SRC_DIR}
+	poetry run mypy ${SRC_DIR} --config-file=mypy.ini
 
 format:
 	poetry run black --check --line-length 120 ${SRC_DIR}

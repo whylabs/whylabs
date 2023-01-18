@@ -5,7 +5,7 @@ import logging
 from typing import List, Dict, Optional, Any
 from dataclasses import dataclass
 
-import requests  # type: ignore
+import requests
 
 from whylabs.helpers.client import client
 from whylabs.helpers.config import Config
@@ -45,7 +45,7 @@ class UpdateEntity(ABC):
             },
             data=json.dumps(schema),
         )
-        logger.debug(f"{resp.status_code}, {resp.content}")
+        logger.debug(resp.status_code, resp.content)
 
     def _get_current_entity_schema(self) -> None:
         self.current_entity_schema = self._get_entity_schema()

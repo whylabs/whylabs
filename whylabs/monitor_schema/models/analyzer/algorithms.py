@@ -133,7 +133,7 @@ class AlgorithmConfig(NoExtrasBaseModel):
         @staticmethod
         def schema_extra(schema: Dict[str, Any], model: BaseModel) -> None:
             """Update specific fields here (for Union type, specifically)."""
-            anyOf_to_oneOf(schema, 'baseline')
+            anyOf_to_oneOf(schema, "baseline")
 
 
 class ExpectedValue(NoExtrasBaseModel):
@@ -147,11 +147,11 @@ class ExpectedValue(NoExtrasBaseModel):
 class ComparisonOperator(str, Enum):
     """Operators for performing a comparison."""
 
-    eq = 'eq'
-    gt = 'gt'
-    lt = 'lt'
-    ge = 'ge'
-    le = 'le'
+    eq = "eq"
+    gt = "gt"
+    lt = "lt"
+    ge = "ge"
+    le = "le"
 
 
 class ComparisonConfig(AlgorithmConfig):
@@ -180,7 +180,7 @@ class ColumnListChangeConfig(AlgorithmConfig):
     """
 
     type: Literal[AlgorithmType.column_list]
-    mode: Literal['ON_ADD_AND_REMOVE', 'ON_ADD', 'ON_REMOVE'] = 'ON_ADD_AND_REMOVE'
+    mode: Literal["ON_ADD_AND_REMOVE", "ON_ADD", "ON_REMOVE"] = "ON_ADD_AND_REMOVE"
     metric: Literal[ComplexMetrics.column_list]
     exclude: Optional[List[COLUMN_NAME_TYPE]] = Field(  # type: ignore
         None,
@@ -245,8 +245,8 @@ class SeasonalConfig(_ThresholdBaseConfig):
     """
 
     type: Literal[AlgorithmType.seasonal]
-    algorithm: Literal['arima', 'rego', 'stastforecast'] = Field(
-        'arima', description="The algorithm implementation for seasonal analysis"
+    algorithm: Literal["arima", "rego", "stastforecast"] = Field(
+        "arima", description="The algorithm implementation for seasonal analysis"
     )
     minBatchSize: Optional[int] = Field(
         30,
@@ -284,8 +284,8 @@ class DriftConfig(AlgorithmConfig):
     """
 
     type: Literal[AlgorithmType.drift]
-    algorithm: Literal['hellinger', 'ks_test', 'kl_divergence', 'variation_distance'] = Field(
-        'hellinger', description='The algorithm to use when calculating drift.'
+    algorithm: Literal["hellinger", "ks_test", "kl_divergence", "variation_distance"] = Field(
+        "hellinger", description="The algorithm to use when calculating drift."
     )
     metric: Literal[ComplexMetrics.histogram, ComplexMetrics.frequent_items]
     threshold: float = Field(
@@ -314,8 +314,8 @@ class ExperimentalConfig(AlgorithmConfig):
 class DiffMode(str, Enum):
     """Whether to use the absolute difference or the percentage to calculate the difference."""
 
-    abs = 'abs'
-    pct = 'pct'
+    abs = "abs"
+    pct = "pct"
 
 
 class ThresholdType(str, Enum):
@@ -325,8 +325,8 @@ class ThresholdType(str, Enum):
     If its only desirable to alert when the target is above the
     baseline and not the other way around, specify upper for your ThresholdType."""
 
-    lower = 'lower'
-    upper = 'upper'
+    lower = "lower"  # type: ignore
+    upper = "upper"  # type: ignore
 
 
 class DiffConfig(AlgorithmConfig):

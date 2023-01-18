@@ -37,7 +37,7 @@ class Analyzer(NoExtrasBaseModel):
         "Can only contain alpha numeric characters, underscores and dashes",
         min_length=10,
         max_length=128,
-        regex='[0-9a-zA-Z\\-_]+',
+        regex="[0-9a-zA-Z\\-_]+",
     )
     displayName: Optional[str] = Field(
         None,
@@ -46,7 +46,7 @@ class Analyzer(NoExtrasBaseModel):
         "spaces, and alphanumeric characters",
         min_length=10,
         max_length=256,
-        regex='[0-9a-zA-Z \\-_]+',
+        regex="[0-9a-zA-Z \\-_]+",
     )
     tags: Optional[  # type: ignore
         List[constr(min_length=3, max_length=32, regex="[0-9a-zA-Z\\-_]")]  # noqa
@@ -66,7 +66,7 @@ class Analyzer(NoExtrasBaseModel):
     )
     targetMatrix: Union[ColumnMatrix, DatasetMatrix] = Field(
         description="A matrix for possible locations of the target",
-        discriminator='type',
+        discriminator="type",
     )
     dataReadinessDuration: Optional[str] = duration_field(
         title="DataReadinessDuration",
@@ -97,7 +97,7 @@ class Analyzer(NoExtrasBaseModel):
         DriftConfig,
         ExperimentalConfig,
         SeasonalConfig,
-    ] = Field(description="The configuration map of the analyzer", discriminator='type')
+    ] = Field(description="The configuration map of the analyzer", discriminator="type")
 
     class Config:
         """Updates JSON schema anyOf to oneOf."""
@@ -106,5 +106,5 @@ class Analyzer(NoExtrasBaseModel):
         @staticmethod
         def schema_extra(schema: Dict[str, Any], model: BaseModel) -> None:
             """Update specific fields here (for Union type, specifically)."""
-            anyOf_to_oneOf(schema, 'config')
-            anyOf_to_oneOf(schema, 'targetMatrix')
+            anyOf_to_oneOf(schema, "config")
+            anyOf_to_oneOf(schema, "targetMatrix")

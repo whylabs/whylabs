@@ -12,19 +12,19 @@ from whylabs.monitor_schema.models.utils import COLUMN_NAME_TYPE
 class ColumnDiscreteness(str, Enum):
     """Classifying the type."""
 
-    discrete = 'discrete'
-    continuous = 'continuous'
+    discrete = "discrete"
+    continuous = "continuous"
 
 
 class ColumnDataType(str, Enum):
     """Options for configuring data type for a column."""
 
-    integral = 'integral'
-    fractional = 'fractional'
-    boolean = 'bool'
-    string = 'string'
-    unknown = 'unknown'
-    null = 'null'
+    integral = "integral"
+    fractional = "fractional"
+    boolean = "bool"
+    string = "string"
+    unknown = "unknown"
+    null = "null"
 
 
 class ColumnSchema(NoExtrasBaseModel):
@@ -39,12 +39,12 @@ class ColumnSchema(NoExtrasBaseModel):
         " columns vs. continuous columns."
     )
     dataType: ColumnDataType = Field(
-        description='The data type of the columns. Setting this field affects the default grouping (i.e integral '
-        'columns) and the frontend behavior (what default metrics to offer. It does NOT affect what is '
-        'collected in whylogs (an integral field can still have a frequentItems sketch if it opts in)'
+        description="The data type of the columns. Setting this field affects the default grouping (i.e integral "
+        "columns) and the frontend behavior (what default metrics to offer. It does NOT affect what is "
+        "collected in whylogs (an integral field can still have a frequentItems sketch if it opts in)"
     )
     classifier: Optional[str] = Field(
-        'input',
+        "input",
         description="We can classify these columns into various grouping. Currently we only support 'input' "
         "and 'output'",
         max_length=20,

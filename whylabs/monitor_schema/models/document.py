@@ -16,16 +16,16 @@ from .monitor import Monitor
 class Granularity(str, Enum):
     """Supported granularity."""
 
-    hourly = 'hourly'
-    daily = 'daily'
-    weekly = 'weekly'
-    monthly = 'monthly'
+    hourly = "hourly"
+    daily = "daily"
+    weekly = "weekly"
+    monthly = "monthly"
 
 
 class Document(NoExtrasBaseModel):
     """The main document that dictates how the monitor should be run. This document is managed by WhyLabs internally."""
 
-    id: Optional[uuid.UUID] = Field(None, description='A unique ID for the document')
+    id: Optional[uuid.UUID] = Field(None, description="A unique ID for the document")
     schemaVersion: Literal[1] = Field(
         description="The schema version of the document",
         title="SchemaVersion",

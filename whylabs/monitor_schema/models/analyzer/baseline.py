@@ -10,11 +10,11 @@ from whylabs.monitor_schema.models.commons import DATASET_ID_DEF, NoExtrasBaseMo
 class BaselineType(str, Enum):
     """Supported baseline types."""
 
-    BatchTimestamp = 'BatchTimestamp'
-    Reference = 'Reference'
-    TrailingWindow = 'TrailingWindow'
-    TimeRange = 'TimeRange'
-    CurrentBatch = 'CurrentBatch'
+    BatchTimestamp = "BatchTimestamp"
+    Reference = "Reference"
+    TrailingWindow = "TrailingWindow"
+    TimeRange = "TimeRange"
+    CurrentBatch = "CurrentBatch"
 
 
 class _Baseline(NoExtrasBaseModel):

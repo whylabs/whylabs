@@ -1,7 +1,7 @@
 import os
 import json
 import logging
-from typing import List, Any
+from typing import Any
 from datetime import datetime
 
 import requests
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 # TODO create deactivate_monitor
 
-# TODO Set up a monitor/alert on a text feature that triggers alerts based on an 
+# TODO Set up a monitor/alert on a text feature that triggers alerts based on an
 # x% increase or y change in std dev for the total volume (counts?) received for that particular feature?
 
 
@@ -34,12 +34,14 @@ def _get_monitor_config(org_id: str, dataset_id: str) -> Any:
     )
     return json.loads(resp.content)
 
+
 def _get_analyzer_ids(org_id: str, dataset_id: str, monitor_id: str) -> Any:
     monitor_config = _get_monitor_config(org_id=org_id, dataset_id=dataset_id)
     for item in monitor_config["monitors"]:
         if item["id"] == monitor_id:
             resp = item["analyzerIds"]
     return resp
+
 
 def delete_monitor(org_id: str, dataset_id: str, monitor_id: str) -> None:
     org_id = org_id or Config().get_default_org_id()
@@ -50,13 +52,15 @@ def delete_monitor(org_id: str, dataset_id: str, monitor_id: str) -> None:
         analyzer_ids = _get_analyzer_ids(org_id=org_id, dataset_id=dataset_id, monitor_id=monitor_id)
         for analyzer_id in analyzer_ids:
             resp_analyzer = api.delete_analyzer(org_id=org_id, dataset_id=dataset_id, analyzer_id=analyzer_id)
-            logger.debug(f"Deleted analyzer with Resp:{resp_analyzer}")        
+            logger.debug(f"Deleted analyzer with Resp:{resp_analyzer}")
     except ApiValueError as e:
         raise e
 
 
 if __name__ == "__main__":
-    print(_get_monitor_config(
-        org_id="org-fjx9Rz",
-        dataset_id="model-7",
-    ))
+    print(
+        _get_monitor_config(
+            org_id="org-fjx9Rz",
+            dataset_id="model-7",
+        )
+    )

@@ -29,28 +29,28 @@ class MonitorConfigMetadata(NoExtrasBaseModel):
 class GlobalAction(NoExtrasBaseModel):
     """Actions that are configured at the team/organization level."""
 
-    type: Literal['global']
+    type: Literal["global"]
     target: str = Field(description="The unique action ID in the platform", regex="[a-zA-Z0-9\\-_]+", max_length=100)
 
 
 class SendEmail(NoExtrasBaseModel):
     """Action to send an email."""
 
-    type: Literal['email']
+    type: Literal["email"]
     target: str = Field(description="Destination email", format="email", max_length=1000)
 
 
 class SlackWebhook(NoExtrasBaseModel):
     """Action to send a Slack webhook."""
 
-    type: Literal['slack']
+    type: Literal["slack"]
     target: HttpUrl = Field(description="The Slack webhook")
 
 
 class RawWebhook(NoExtrasBaseModel):
     """Action to send a Slack webhook."""
 
-    type: Literal['raw']
+    type: Literal["raw"]
     target: HttpUrl = Field(description="Sending raw unformatted message in JSON format to a webhook")
 
 
@@ -138,24 +138,24 @@ excludeMetrics: Optional[List[METRIC_NAME_STR]] = Field(  # type: ignore
 class EveryAnomalyMode(NoExtrasBaseModel):
     """Config mode that indicates the monitor will send out individual messages per anomaly."""
 
-    type: Literal['EVERY_ANOMALY']
+    type: Literal["EVERY_ANOMALY"]
     filter: Optional[AnomalyFilter] = Field(None, description="Filter for anomalies")
 
 
 class DigestModeGrouping(str, Enum):
     """Enable the ability to group digest by various fields."""
 
-    byField = 'byColumn'
-    byDataset = 'byDataset'
-    byAnalyzer = 'byAnalyzer'
-    byDay = 'byDay'
-    byHour = 'byHour'
+    byField = "byColumn"
+    byDataset = "byDataset"
+    byAnalyzer = "byAnalyzer"
+    byDay = "byDay"
+    byHour = "byHour"
 
 
 class DigestMode(NoExtrasBaseModel):
     """Config mode that indicates the monitor will send out a digest message."""
 
-    type: Literal['DIGEST']
+    type: Literal["DIGEST"]
     filter: Optional[AnomalyFilter] = Field(None, description="Filter for anomalies")
     creationTimeOffset: Optional[str] = Field(
         None,
@@ -192,7 +192,7 @@ class Monitor(NoExtrasBaseModel):
         description="A human-readable alias for a monitor. Must be readable",
         min_length=10,
         max_length=128,
-        regex='[0-9a-zA-Z\\-_]+',
+        regex="[0-9a-zA-Z\\-_]+",
     )
     displayName: Optional[str] = Field(
         None,
@@ -201,7 +201,7 @@ class Monitor(NoExtrasBaseModel):
         "spaces, and alphanumeric characters",
         min_length=10,
         max_length=256,
-        regex='[0-9a-zA-Z \\-_]+',
+        regex="[0-9a-zA-Z \\-_]+",
     )
     tags: Optional[  # type: ignore
         List[constr(min_length=3, max_length=32, regex="[0-9a-zA-Z\\-_]")]  # noqa F722
@@ -218,8 +218,8 @@ class Monitor(NoExtrasBaseModel):
     disabled: Optional[bool] = Field(None, description="Whether the monitor is enabled or not")
     severity: Optional[int] = Field(3, description="The severity of the monitor messages")
     mode: Union[EveryAnomalyMode, DigestMode] = Field(
-        description='Notification mode and how we might handle different analysis',
-        discriminator='type',
+        description="Notification mode and how we might handle different analysis",
+        discriminator="type",
     )
     actions: List[Union[GlobalAction, SendEmail, SlackWebhook, RawWebhook]] = Field(
         description="List of destination for the outgoing messages",
@@ -233,5 +233,5 @@ class Monitor(NoExtrasBaseModel):
         @staticmethod
         def schema_extra(schema: Dict[str, Any], model: BaseModel) -> None:
             """Update specific fields here (for Union type, specifically)."""
-            anyOf_to_oneOf(schema, 'mode')
-            anyOf_to_oneOf(schema, 'schedule')
+            anyOf_to_oneOf(schema, "mode")
+            anyOf_to_oneOf(schema, "schedule")
