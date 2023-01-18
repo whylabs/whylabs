@@ -1,50 +1,63 @@
-import time
-import whylabs_client
-from whylabs_client.api import models_api
-from pprint import pprint
+import os
+import json
+import logging
+from typing import Any
 
-# Defining the host is optional and defaults to http://localhost
-# See configuration.py for a list of all supported configuration parameters.
-configuration = whylabs_client.Configuration(host="https://api.whylabsapp.com")
 
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
+import requests
 
-# Configure API key authorization: ApiKeyAuth
-configuration.api_key["ApiKeyAuth"] = ""
+from whylabs.helpers.utils import get_models_api
+from whylabs.helpers.client import client
+from whylabs_client.exceptions import ApiValueError
 
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+BASE_ENDPOINT = "https://api.whylabsapp.com"
+logger = logging.getLogger(__name__)
 
-# Enter a context with an instance of the API client
-with whylabs_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = models_api.ModelsApi(api_client)
-    dataset_id = "model-7"
-    org_id = "org-fjx9Rz"
-    include_entity_schema = True  # bool, none_type |  (optional)
-    include_entity_weights = True  # bool, none_type |  (optional)
 
-    # example passing only required values which don't have defaults set
+# TODO create deactivate_monitor
+
+# TODO Set up a monitor/alert on a text feature that triggers alerts based on an
+# x% increase or y change in std dev for the total volume (counts?) received for that particular feature?
+
+
+def get_monitor_config(org_id: str, dataset_id: str) -> Any:
+    # TODO change to commented section once whylabs_client is updated
+    # api = get_models_api(org_id=org_id)
+    # monitor_config = api.get_monitor_config_v3(org_id=org_id, dataset_id=dataset_id)
+    get_monitor_config_url = f"v0/organizations/{org_id}/models/{dataset_id}/monitor-config/v3"
+    req_url = os.path.join(BASE_ENDPOINT, get_monitor_config_url)
+    resp = requests.get(
+        url=req_url,
+        headers={"accept": "application/json", "X-API-Key": client.configuration.api_key["ApiKeyAuth"]},
+    )
+    return json.loads(resp.content)
+
+
+def get_analyzer_ids(org_id: str, dataset_id: str, monitor_id: str) -> Any:
+    monitor_config = get_monitor_config(org_id=org_id, dataset_id=dataset_id)
+    for item in monitor_config["monitors"]:
+        if item["id"] == monitor_id:
+            resp = item["analyzerIds"]
+    return resp
+
+
+def delete_monitor(org_id: str, dataset_id: str, monitor_id: str) -> None:
+    api = get_models_api()
     try:
-        # Get the monitor config document for a given dataset.
-        api_response = api_instance.get_monitor_config_v3(org_id, dataset_id)
-        pprint(api_response)
-    except whylabs_client.ApiException as e:
-        print("Exception when calling ModelsApi->get_monitor_config_v3: %s\n" % e)
+        resp_monitor = api.delete_monitor(org_id=org_id, dataset_id=dataset_id, monitor_id=monitor_id)
+        logger.debug(f"Deleted monitor with Resp:{resp_monitor}")
+        analyzer_ids = get_analyzer_ids(org_id=org_id, dataset_id=dataset_id, monitor_id=monitor_id)
+        for analyzer_id in analyzer_ids:
+            resp_analyzer = api.delete_analyzer(org_id=org_id, dataset_id=dataset_id, analyzer_id=analyzer_id)
+            logger.debug(f"Deleted analyzer with Resp:{resp_analyzer}")
+    except ApiValueError as e:
+        raise e
 
-    # example passing only required values which don't have defaults set
-    # and optional values
-    try:
-        # Get the monitor config document for a given dataset.
-        api_response = api_instance.get_monitor_config_v3(
-            org_id,
-            dataset_id,
-            include_entity_schema=include_entity_schema,
-            include_entity_weights=include_entity_weights,
+
+if __name__ == "__main__":
+    print(
+        get_monitor_config(
+            org_id="org-fjx9Rz",
+            dataset_id="model-7",
         )
-        pprint(api_response)
-    except whylabs_client.ApiException as e:
-        print("Exception when calling ModelsApi->get_monitor_config_v3: %s\n" % e)
+    )

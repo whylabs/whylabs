@@ -5,7 +5,7 @@ import logging
 from typing import List, Dict, Optional, Any
 from dataclasses import dataclass
 
-import requests  # type: ignore
+import requests
 
 from whylabs.helpers.client import client
 from whylabs.helpers.config import Config
@@ -27,6 +27,7 @@ class UpdateEntity(ABC):
         self.req_url = os.path.join(BASE_ENDPOINT, self.entity_schema_url)
 
     def _get_entity_schema(self) -> Any:
+        # TODO change once whylabs_client is updated
         entity_schema = requests.get(
             url=self.req_url,
             headers={"accept": "application/json", "X-API-Key": client.configuration.api_key["ApiKeyAuth"]},
@@ -34,6 +35,7 @@ class UpdateEntity(ABC):
         return entity_schema.json()
 
     def _put_entity_schema(self, schema: Dict) -> None:
+        # TODO change once whylabs_client is updated
         resp = requests.put(
             url=self.req_url,
             headers={
@@ -43,7 +45,7 @@ class UpdateEntity(ABC):
             },
             data=json.dumps(schema),
         )
-        logger.debug(f"{resp.status_code}, {resp.content}")
+        logger.debug(resp.status_code, resp.content)
 
     def _get_current_entity_schema(self) -> None:
         self.current_entity_schema = self._get_entity_schema()
